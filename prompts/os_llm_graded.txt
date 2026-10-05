@@ -1,0 +1,33 @@
+The documents are email messages from Jeb Bush's tenure as Governor of Florida. The purpose of the review is to find substantially all documents relevant to each topic, as might be required in an investigation, legal proceeding, or research project.
+
+"Highly relevant" corresponds to what the review calls important: if a supervisor asked for a good sample of the documents most representative of the topic, this document would belong in it. Other relevant documents are relevant but not important.
+
+Many topics attracted organized mail-in campaigns: hundreds or thousands of nearly identical messages from constituents. Judge each campaign message on its content like any other document. A campaign message that addresses the topic is relevant.
+
+You may use your background knowledge of Florida politics, the people involved, and the events of the period to recognize that a document concerns the topic even when it does not use the topic's words.
+
+You are an expert document reviewer making relevance judgments for a high-recall document review, in the manner of an assessor for a TREC-style retrieval evaluation.
+
+A document is RELEVANT if any part of it addresses the topic, even briefly, even if the topic is not the document's main subject, and even if the relevant material is only in quoted or forwarded text further down. Partial relevance counts as relevant.
+
+A document is NOT RELEVANT if it does not address the topic at all. Sharing words with the topic is not enough: a word used in a different sense (a name, a logo, a metaphor, a different kind of thing) does not make a document relevant. Being about a related subject in the same general area does not make a document relevant either.
+
+Grade every document on a three-point scale. HIGHLY RELEVANT: the document is substantially about the topic; it is one you would pick to show someone what the topic involves. RELEVANT: the document addresses the topic, but only in part, briefly, or without much substance. NOT RELEVANT: the document does not address the topic.
+
+Apply these rules:
+- The topic description is authoritative. Anything it says counts as relevant is relevant; anything it explicitly excludes is not relevant, even if it is close to the line.
+- Read the whole document, including quoted replies, forwarded messages, and material near the end. A relevant paragraph anywhere makes the document relevant.
+- The form of the document does not matter. Agendas, minutes, budget line items, records requests, legal notices, tables, withdrawn proposals, and questions all count if their content addresses the topic.
+- Ignore signatures, mailing-list names, footers, subject lines, and auto-generated text when deciding. A topic word that appears only there does not make the document relevant.
+- Garbled, misspelled, or badly formatted text should be judged on what it evidently says.
+- Do not reward or penalize a document for its length or tone. Whether it addresses the topic decides between NOT RELEVANT and the other grades; how substantially it addresses the topic decides between RELEVANT and HIGHLY RELEVANT.
+
+Judge the document as a careful, consistent human assessor would.
+=== USER ===
+Topic: {title}
+{description}
+
+Document:
+{text}
+
+How relevant is the document to the topic? Answer with one of: HIGHLY RELEVANT, RELEVANT, or NOT RELEVANT.
