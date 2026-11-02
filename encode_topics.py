@@ -9,6 +9,7 @@ from transformers import BitsAndBytesConfig
 
 datasets = ['athome1', 'athome2', 'athome3']
 MODELS = ['Q600M', 'Q4B', 'Q8B', 'H600M', 'H270M']
+topic_options = [1,2,3]
 INCLUDE_DESC = True
 
 def get_model_params(model_code: str):
@@ -88,9 +89,6 @@ def main():
             pass
 
         for model_code in MODELS:
-            write_path = f"topics_{dataset}_{model_code}.csv"
-            f = open(write_path, 'a', newline="")
-            embedding_writer = csv.writer(f)
 
             model_type, precision = get_model_params(model_code)
             model = load_embedding_model(model_type, precision)
@@ -99,6 +97,9 @@ def main():
             topics = tar.extractfile(topic_file).read().decode('utf-8','replace')
 
             if dataset in ['athome1', 'athome2', 'athome3']:
+                write_path = f"topics/topics_{dataset}_{model_code}.csv"
+                f = open(write_path, 'a', newline="")
+                embedding_writer = csv.writer(f)
                 for topic in topics.splitlines():
                     topid, description = topic.split("\t")
                     if dataset in topid:
@@ -108,15 +109,38 @@ def main():
                         embedding_writer.writerow(rowData)
 
             elif dataset == "athome4":
-                for topic in topics.splitlines():
-                    halves = topic.split("--")
-                    topNum = halves[0][0:3]
-                    # Extract the short title (everything after the ID) and combine it with the long description
-                    description = f"{halves[0][3:].strip()} {halves[1].strip()}"
-                    print(description)
-                    emb = model.encode(description, convert_to_numpy=True)
-                    rowData = np.insert(emb.tolist(), 0, topNum)
-                    embedding_writer.writerow(rowData)
+                for mode in topic_options:
+                    suffix = ""
+                    if mode == 1:
+                        suffix = "query_desc"
+                    elif mode == 2:
+                        suffix = "desc"
+                    elif mode == 3:
+                        suffix = "query"
+
+                    write_path = f"topics/topics_{dataset}_{model_code}_{suffix}.csv"
+                    f = open(write_path, 'a', newline="")
+                    embedding_writer = csv.writer(f)
+                    for topic in topics.splitlines():
+                        """
+                          Sample topic format:
+                           401  Summer Olympics -- All documents concerning a bid to host the Summer Olympic Games in Florida.
+                        """
+                        halves = topic.split("--")
+                        topNum = halves[0][0:3]
+
+                        description = f"{halves[0][3:].strip()} {halves[1].strip()}" # Default
+                        if mode == 1:
+                            description = f"{halves[0][3:].strip()} {halves[1].strip()}" # Query & Description
+                        elif mode == 2:
+                            description = description = f"{halves[1].strip()}" # Just Description
+                        elif mode == 3:
+                            description = f"{halves[0][3:].strip()}" # Just Query
+
+                        print(mode + " - " + description)
+                        emb = model.encode(description, convert_to_numpy=True)
+                        rowData = np.insert(emb.tolist(), 0, topNum)
+                        embedding_writer.writerow(rowData)
 
             del tar, topics, model
             f.close()

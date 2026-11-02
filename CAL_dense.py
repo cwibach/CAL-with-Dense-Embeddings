@@ -67,7 +67,12 @@ def main():
     model_type = get_model_params(model_code)
     faiss_path = os.path.join("faiss", dataset, model_type, f"FAISS_{model_code}_{sentences}.faiss")
     chunks_path = os.path.join("embeddings", dataset, model_type, f"chunks_{sentences}.csv")
-    topics_path = os.path.join("topics", f"topics_{dataset}_{model_code}2.csv")
+
+    if dataset == 'athome4': # athome4 has different suffixes for query/description use in topic embeddings
+        topics_path = os.path.join("topics", f"topics_{dataset}_{model_code}_query_desc.csv")
+    else:
+        topics_path = os.path.join("topics", f"topics_{dataset}_{model_code}.csv")
+
     write_path = os.path.join("results2", dataset, model_type, f"{train_mode}_{sentences}.csv")
 
     use_non_relevant = (dataset == 'athome4')
