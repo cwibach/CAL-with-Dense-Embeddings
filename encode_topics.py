@@ -137,7 +137,7 @@ def main():
                         elif mode == 3:
                             description = f"{halves[0][3:].strip()}" # Just Query
 
-                        print(mode + " - " + description)
+                        print(f"{mode} - {description}")
                         emb = model.encode(description, convert_to_numpy=True)
                         rowData = np.insert(emb.tolist(), 0, topNum)
                         embedding_writer.writerow(rowData)
